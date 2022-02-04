@@ -69,4 +69,7 @@ class UserController extends Controller
             return response()->json(['error'=>'Unauthorised'], 401);
         }
     }
+    public function getUsers(Request $request){
+        return User::all();
+    }
 }

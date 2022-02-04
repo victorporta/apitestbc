@@ -58,8 +58,12 @@ export default {
             }
         });
     },
-    getItems: function (callback) {
-        let url = this.apiUrl() + "/todo";
+    getItems: function (params,callback) {
+        let url = this.apiUrl() + "/user/"+params.id+"/todo";
+        this.get(url, callback);
+    },
+    getUsers: function (callback) {
+        let url = this.apiUrl() + "/users";
         this.get(url, callback);
     }
 }

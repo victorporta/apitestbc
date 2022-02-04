@@ -19,11 +19,14 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/image',[App\Http\Controllers\GenerateImageController::class, 'image']);
 
 });
-Route::get('/todo',[App\Http\Controllers\TodoController::class, 'index']);
+//Route::get('/todo',[App\Http\Controllers\TodoController::class, 'index']);
+Route::get('/user/{id}/todo',[App\Http\Controllers\TodoController::class, 'index']);
+
 Route::delete('/todo/{id}',[App\Http\Controllers\TodoController::class, 'delete']);
 Route::put('/todo/{id}',[App\Http\Controllers\TodoController::class, 'edit']);
+Route::get('/users',[App\Http\Controllers\UserController::class, 'getUsers']);
 
-Route::post('/todo',[App\Http\Controllers\TodoController::class, 'add']);
+Route::post('/user/{id}/todo',[App\Http\Controllers\TodoController::class, 'add']);
 
 
 Route::post('register', [App\Http\Controllers\UserController::class, 'registerUser']);

@@ -7,7 +7,7 @@ export function AddItemsData(data, tempid)
       offline: {
         // the network action to execute:
         effect: {
-          url: "//localhost:8000/api/todo",
+          url: "//localhost:8000/api/user/"+data.users_id+"/todo",
           method: "POST",
           body: JSON.stringify(data),
           headers: { 
@@ -39,7 +39,6 @@ export function deleteItemsData(data){
             "content-type": "application/json" 
           }
         }, 
-        
       }
     }
   }

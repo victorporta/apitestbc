@@ -1,5 +1,4 @@
 import reducers from './Reducers';
-import initialState from './State';
 
 import { applyMiddleware, createStore, compose,combineReducers } from "redux";
 import { offline } from "redux-offline";

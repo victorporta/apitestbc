@@ -8,7 +8,8 @@ import './App.css';
 
 function App(props) {
   const [show, setShow] = useState(false);
-
+  const [userList, setUserList] = useState([]);
+  const [userActive, setUserActive] = useState(null);
   const handleClose = (index) => setShow(false);
   const [itemActive, setitemActive] = useState({
     data: {}, index: null
@@ -29,18 +30,30 @@ function App(props) {
   const { itemsData } = useSelector(state => state.state);
   const [todo, setTodo] = useState("");
   const setTodoFunc = () => {
-    dispatch(AddItemsData({ name: todo }, itemsData.length + 1));
+    dispatch(AddItemsData({ name: todo, users_id:userActive }, itemsData.length + 1));
     setTodo("");
   };
+  const onChangeSelect = (event) => {
+      setUserActive(event.target.value);
+      
+  }
   useEffect(() => {
-    axios.getItems((data) => {
-      var items = [];
-      data.forEach(element => {
-        items.push({ ...element, edit: false, isTemp: false });
+    if (userActive !== null) {
+      axios.getItems({id: userActive},(data) => {
+        var items = [];
+        data.forEach(element => {
+          items.push({ ...element, edit: false, isTemp: false });
+        });
+        dispatch(setItemsData(items));
       });
-      dispatch(setItemsData(items));
-    });
+    }
 
+  }, [userActive]);
+  useEffect(() => {
+    axios.getUsers((data) => {
+      setUserList(data);
+      setUserActive(data[0].id);
+    });
   }, []);
   const deleteItem = (item) => {
     if (window.confirm("Estas seguro que deseas eliminar este item?")) {
@@ -61,8 +74,16 @@ function App(props) {
         <div className="col-12">
           <div className="card">
             <div className="card-body">
-              <h5 className="card-title">Todo</h5>
+          
+              <h5 className="card-title">Users</h5>
+              <select className="form-select mb-3" onChange={(e)=>onChangeSelect(e)} >
+              {
+                userList.map(user =>  <option value={user.id} key={user.id}>{user.name}</option>)
+              }
+              </select>
               <div className="card-text">
+              <h5 className="card-title"> Todo</h5>
+
                 <div className="d-flex justify-content-between">
                   <input type="text" className="form-control" placeholder="Add Todo" value={todo} onChange={(e) => setTodo(e.target.value)} />
                   {

@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 
 class TodoController extends Controller
 {
-    public function index(){
-        return   \App\Models\Todo::all();
+    public function index(Request $request){
+        return   \App\Models\Todo::where('users_id', $request->id)->get();
     }
     public function delete(Request $request){
         $id = $request->id;
@@ -23,6 +23,7 @@ class TodoController extends Controller
         $data = $request->all();
         $todo = new Todo;
         $todo->name= $data["name"];
+        $todo->users_id= $request->id;
         $todo->save();
         
         return  Todo::find($todo->id);
